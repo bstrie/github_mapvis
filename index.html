@@ -44,8 +44,8 @@ svg {
 <script type="text/javascript">
 
 MIN_RADIUS = 2;
-THE_MOON = {lat: -36.031332,
-            lon: -140.288088};
+THE_MOON = {lat: -20.632784,
+            lon: -141.181644};
 
 function shrinken(val) {
   r = Math.pow(val, 1/4);
@@ -63,9 +63,9 @@ function moonify(coords) {
   }
 }
 
-var projection = d3.geo.mercator().translate([500, 190]).scale(1000);
+var mercator = d3.geo.mercator().translate([500, 190]).scale(1000);
 
-var path = d3.geo.path().projection(projection);
+var path = d3.geo.path().projection(mercator);
 
 var map = d3.select("#container")
             .append("svg:svg")
@@ -87,7 +87,7 @@ d3.json("d3/world-countries.json", function(collection) {
        .append("svg:g")
        .attr("transform", function(d) {
          var coord = moonify(d);
-         return "translate(" + projection(coord).join(",") + ")";
+         return "translate(" + mercator(coord).join(",") + ")";
        })
        .append("svg:circle")
        .attr("stroke-width", "none")
@@ -98,7 +98,7 @@ d3.json("d3/world-countries.json", function(collection) {
        .transition()
        .duration(500)
        .attr("r", function(d) { return shrinken(d.impact) })
-       .attr("fill-opacity", 0.25);
+       .attr("fill-opacity", 0.2);
   });
 });
 
