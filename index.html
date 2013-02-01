@@ -44,6 +44,8 @@ svg {
 <script type="text/javascript">
 
 MIN_RADIUS = 2;
+THE_MOON = {lat: -36.031332,
+            lon: -140.288088};
 
 function shrinken(val) {
   r = Math.pow(val, 1/4);
@@ -54,7 +56,7 @@ function shrinken(val) {
 function moonify(coords) {
   if (coords.lat === 'MOON') {
     // THE GREAT GYRE
-    return [-140.288088, -36.031332];
+    return [THE_MOON.lon, THE_MOON.lat];
   }
   else {
     return [coords.lon, coords.lat];
