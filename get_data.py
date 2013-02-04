@@ -8,6 +8,8 @@ import shutil
 import sys
 import time
 
+# TODO: make repo name an input parameter
+
 username = sys.argv[1]
 password = getpass.getpass('Github password for {0}: '.format(username))
 cred = (username, password)

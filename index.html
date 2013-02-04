@@ -92,7 +92,7 @@ d3.json("d3/world-countries.json", function(collection) {
     .enter().append("svg:path")
     .attr("d", path);
 
-  d3.json("data/betterfeb1data.json", function(json) {
+  d3.json("data/newest.json", function(json) {
     map.selectAll("dots")
        .data(json, function(d) { return d.name })
        .enter()
