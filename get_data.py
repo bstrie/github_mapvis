@@ -8,9 +8,14 @@ import shutil
 import sys
 import time
 
-reponame = sys.argv[1]
+try:
+    reponame = sys.argv[1]
+    username = sys.argv[2]
+except IndexError:
+    print('Usage: get_data.py owner/repo username')
+    print('Example: get_data.py mozilla/rust octocat')
+    sys.exit(2)
 
-username = sys.argv[2]
 password = getpass.getpass('Github password for {0}: '.format(username))
 cred = (username, password)
 
