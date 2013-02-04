@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
+import datetime
 import getpass
 import json
 import requests
+import shutil
 import sys
 import time
 
-filename = sys.argv[1]
-
-username = sys.argv[2]
+username = sys.argv[1]
 password = getpass.getpass('Github password for {0}: '.format(username))
 cred = (username, password)
 
@@ -75,5 +75,10 @@ for user in data:
 
 print(data)
 
-with open('data/'+filename, 'w') as f:
+date_filename = 'data/' + datetime.datetime.now().strftime('%Y%m%d_%H%M') + '.json'
+with open(date_filename, 'w') as f:
     f.write(json.dumps(data))
+
+shutil.copyfile(date_filename, 'data/newest.json')
+
+print('Complete')
