@@ -43,12 +43,12 @@ svg {
 
 <script type="text/javascript">
 
-MIN_RADIUS = 2;
-THE_MOON = {lat: -20.632784,
-            lon: -141.181644};
+MIN_RADIUS = 2.5;
+THE_MOON = {lat: -50,
+            lon: 0};
 
 function shrinken(val) {
-  r = Math.pow(val, 1/4);
+  r = Math.pow(val, 1/4.1);
   if (r < MIN_RADIUS) { return MIN_RADIUS; }
   else { return r; }
 }
@@ -98,7 +98,7 @@ d3.json("d3/world-countries.json", function(collection) {
        .transition()
        .duration(500)
        .attr("r", function(d) { return shrinken(d.impact) })
-       .attr("fill-opacity", 0.2);
+       .attr("fill-opacity", 0.225);
   });
 });
 
