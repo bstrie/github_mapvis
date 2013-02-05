@@ -86,14 +86,16 @@ var map = d3.select('#map').append('svg');
 
 d3.json('world.json', function(error, world) {
   map.insert('path')
-      .datum(topojson.object(world, world.objects.land))
-      .attr('class', 'continents')
-      .attr('d', path);
+     .datum(topojson.object(world, world.objects.land))
+     .attr('class', 'continents')
+     .attr('d', path);
 
   map.insert('path')
-      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a.id !== b.id; }))
-      .attr('class', 'countries')
-      .attr('d', path);
+     .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
+       return a.id !== b.id;
+     }))
+     .attr('class', 'countries')
+     .attr('d', path);
 
   d3.json('data/newest.json', function(json) {
     map.selectAll('dots')
