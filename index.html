@@ -5,20 +5,20 @@
 <title>Rust Compiler Contributor Map</title>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-<script type="text/javascript" src="d3/d3.js"></script>
-<script type="text/javascript" src="d3/d3.geo.js"></script>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="//d3js.org/d3.geo.projection.v0.min.js"></script>
 
 <style type="text/css">
 body {
   margin: 0;
-  background-color: #e1f2ff;
+  background-color: #f0f0fa;
 }
 
 svg {
   width: 100%;
-  height: 480px;
-  border: solid 0px #ccc;
-  background: #e1f2ff;
+  height: 630px;
+  border: solid 0px #ffffff;
+  background: transparent;
 }
 
 #container {
@@ -28,12 +28,12 @@ svg {
 }
 
 #states path {
-  fill: #a6e17e;
-  stroke: #fff;
+  fill: #e1ffcd;
+  stroke: #9fda77;
 }
 
 #states circle {
-  fill: red;
+  fill: #ff0000;
 }
 
 #text {
@@ -49,7 +49,6 @@ svg {
   <div id="text">
     <p>This chart depicts the impact and geographic location of each contributor to <a href="https://github.com/mozilla/rust">the Rust compiler</a>.</p>
     <p>Location data is taken from each user's Github profile for users who have elected to disclose that information. Precise coordinates are found by running location strings through the Google Maps API; for example, with a location of "Canada" you will be depicted as inhabiting a shack in remote Saskatchewan. Users without location data can be found floating near the Antarctic.</p>
-    <p>I have cut the top of the map off at the Arctic circle. If you live in Svalbard, I'm truly sorry&mdash;blame <a href="http://en.wikipedia.org/wiki/Gerardus_Mercator">this guy</a>. Same goes for Antarctica, but if you're sincerely contributing code from Amundsen–Scott then that's pretty rad.</p>
     <p>Impact is measured as the sum of lines added and lines deleted for all commits to the master branch. Github only makes this data available for the top 100 contributors to any given repository; for the remaining users, their location is denoted by a dot of the minimum size.
   </div>
 </div>
@@ -75,9 +74,9 @@ function moonify(coords) {
 }
 
 $(document).ready(function() {
-  var mercator = d3.geo.mercator().translate([500, 190]).scale(1000);
+  var projection = d3.geo.winkel3().translate([500, 200]).scale(195);
 
-  var path = d3.geo.path().projection(mercator);
+  var path = d3.geo.path().projection(projection);
 
   var map = d3.select("#map")
               .append("svg:svg")
@@ -85,7 +84,7 @@ $(document).ready(function() {
               .attr("id", "states")
               .attr("transform", "translate(0, 100)");
 
-  d3.json("d3/world-countries.json", function(collection) {
+  d3.json("political_borders.json", function(collection) {
     d3.select("#states")
       .selectAll("path")
       .data(collection.features)
@@ -99,7 +98,7 @@ $(document).ready(function() {
          .append("svg:g")
          .attr("transform", function(d) {
            var coord = moonify(d);
-           return "translate(" + mercator(coord).join(",") + ")";
+           return "translate(" + projection(coord).join(",") + ")";
          })
          .append("svg:circle")
          .attr("stroke-width", "none")
@@ -110,7 +109,7 @@ $(document).ready(function() {
          .transition()
          .duration(500)
          .attr("r", function(d) { return shrinken(d.impact) })
-         .attr("fill-opacity", 0.175);
+         .attr("fill-opacity", 0.2);
     });
   });
 });
