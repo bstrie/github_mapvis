@@ -40,21 +40,21 @@ svg {
   font-family: sans-serif;
 }
 </style>
+
 </head>
 <body>
 
 <div id="container">
   <div id="map"></div>
   <div id="text">
-    <p>This chart depicts the impact and geographic location of each contributor to the Rust compiler.</p>
+    <p>This chart depicts the impact and geographic location of each contributor to <a href="https://github.com/mozilla/rust">the Rust compiler</a>.</p>
     <p>Location data is taken from each user's Github profile for users who have elected to disclose that information. Precise coordinates are found by running location strings through the Google Maps API; for example, with a location of "Canada" you will be depicted as inhabiting a shack in remote Saskatchewan. Users without location data can be found floating near the Antarctic.</p>
-    <p>I have cut the top of the map off at the Arctic circle. If you live in Svalbard, I'm truly sorry&mdash;blame <a href="http://en.wikipedia.org/wiki/Gerardus_Mercator">this guy</a>. Same goes for Antarctica, but if you're sincerely contributing Rust code from Amundsen–Scott then that's pretty rad.</p>
+    <p>I have cut the top of the map off at the Arctic circle. If you live in Svalbard, I'm truly sorry&mdash;blame <a href="http://en.wikipedia.org/wiki/Gerardus_Mercator">this guy</a>. Same goes for Antarctica, but if you're sincerely contributing code from Amundsen–Scott then that's pretty rad.</p>
     <p>Impact is measured as the sum of lines added and lines deleted for all commits to the master branch. Github only makes this data available for the top 100 contributors to any given repository; for the remaining users, their location is denoted by a dot of the minimum size.
   </div>
 </div>
 
 <script type="text/javascript">
-
 MIN_RADIUS = 2.5;
 THE_MOON = {lat: -50,
             lon: 0};
@@ -67,7 +67,6 @@ function shrinken(val) {
 
 function moonify(coords) {
   if (coords.lat === 'MOON') {
-    // THE GREAT GYRE
     return [THE_MOON.lon, THE_MOON.lat];
   }
   else {
@@ -75,45 +74,46 @@ function moonify(coords) {
   }
 }
 
-var mercator = d3.geo.mercator().translate([500, 190]).scale(1000);
+$(document).ready(function() {
+  var mercator = d3.geo.mercator().translate([500, 190]).scale(1000);
 
-var path = d3.geo.path().projection(mercator);
+  var path = d3.geo.path().projection(mercator);
 
-var map = d3.select("#map")
-            .append("svg:svg")
-            .append("svg:g")
-            .attr("id", "states")
-            .attr("transform", "translate(0, 100)");
+  var map = d3.select("#map")
+              .append("svg:svg")
+              .append("svg:g")
+              .attr("id", "states")
+              .attr("transform", "translate(0, 100)");
 
-d3.json("d3/world-countries.json", function(collection) {
-  d3.select("#states")
-    .selectAll("path")
-    .data(collection.features)
-    .enter().append("svg:path")
-    .attr("d", path);
+  d3.json("d3/world-countries.json", function(collection) {
+    d3.select("#states")
+      .selectAll("path")
+      .data(collection.features)
+      .enter().append("svg:path")
+      .attr("d", path);
 
-  d3.json("data/newest.json", function(json) {
-    map.selectAll("dots")
-       .data(json, function(d) { return d.name })
-       .enter()
-       .append("svg:g")
-       .attr("transform", function(d) {
-         var coord = moonify(d);
-         return "translate(" + mercator(coord).join(",") + ")";
-       })
-       .append("svg:circle")
-       .attr("stroke-width", "none")
-       .attr("fill", "red")
-       .attr("r", 0)
-       .attr("class", "dots")
-       .attr("fill-opacity", 0)
-       .transition()
-       .duration(500)
-       .attr("r", function(d) { return shrinken(d.impact) })
-       .attr("fill-opacity", 0.175);
+    d3.json("data/newest.json", function(json) {
+      map.selectAll("dots")
+         .data(json, function(d) { return d.name })
+         .enter()
+         .append("svg:g")
+         .attr("transform", function(d) {
+           var coord = moonify(d);
+           return "translate(" + mercator(coord).join(",") + ")";
+         })
+         .append("svg:circle")
+         .attr("stroke-width", "none")
+         .attr("fill", "red")
+         .attr("r", 0)
+         .attr("class", "dots")
+         .attr("fill-opacity", 0)
+         .transition()
+         .duration(500)
+         .attr("r", function(d) { return shrinken(d.impact) })
+         .attr("fill-opacity", 0.175);
+    });
   });
 });
-
 </script>
 
 </body>
