@@ -57,7 +57,8 @@ for user in data:
     name = user['name']
     print(name)
     # This request is the reason we need authentication. Without it, Github
-    # limits you to 60 requests per hour.
+    # limits you to 60 requests per hour. Here's hoping your repo doesn't
+    # have more than 4,999 contributors.
     r = requests.get('https://api.github.com/users/'+name, auth=cred)
     userdata = r.json()
     if 'location' in userdata:
