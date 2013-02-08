@@ -102,6 +102,8 @@ d3.json('world.json', function(error, world) {
        .data(json, function(d) { return d.name })
        .enter()
        .append('svg:g')
+       .attr('data-name', function(d) { return d.name })
+       .attr('data-impact', function(d) { return d.impact })
        .attr('transform', function(d) {
          var coord = moonify(d);
          return 'translate(' + projection(coord).join(',') + ')';
