@@ -75,10 +75,18 @@ for user in data:
         lat = geodata['results'][0]['geometry']['location']['lat']
         lon = geodata['results'][0]['geometry']['location']['lng']
 
-    coords = {'name': name, 'lat': lat, 'lon': lon}
+    coords = {'name': name, 'location': location, 'lat': lat, 'lon': lon}
     print(coords)
     user.update(coords)
     time.sleep(0.5)  # To be a polite API consumer
+
+
+# We sort it for silly reasons.
+# D3 will draw the dots in order of appearance in the file.
+# If large dots get drawn on top of small dots, it makes them harder to manually
+# inspect via browser dev tools.
+# Thus, we sort the data so that the large dots get drawn first.
+data.sort(key=lambda x: x['impact'], reverse=True)
 
 print(data)
 
