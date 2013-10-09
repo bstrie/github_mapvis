@@ -52,7 +52,7 @@ for user in contributors:
 print(data)
 
 # Now we look up each user in turn on Github, grab their location data,
-# and run it through the Google Maps API.
+# and run it through the Nominatim API.
 for user in data:
     name = user['name']
     print(name)
@@ -66,14 +66,20 @@ for user in data:
     else:
         location = ''
 
-    r = requests.get('http://maps.googleapis.com/maps/api/geocode/json?address='+location+'&sensor=false')
+    r = requests.get('http://open.mapquestapi.com/nominatim/v1/search.php',
+                     params = {
+                         'q': location,
+                         'format': 'json',
+                         'limit': '1'
+                     },
+                     headers = {'User-Agent': 'github.com/bstrie/github_mapvis crawler'})
     geodata = r.json()
-    if geodata['status'] != 'OK':
+    if not geodata:
         lat = 'MOON'
         lon = 'MOON'
     else:
-        lat = geodata['results'][0]['geometry']['location']['lat']
-        lon = geodata['results'][0]['geometry']['location']['lng']
+        lat = geodata[0]['lat']
+        lon = geodata[0]['lon']
 
     coords = {'name': name, 'location': location, 'lat': lat, 'lon': lon}
     print(coords)
