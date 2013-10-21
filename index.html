@@ -53,7 +53,7 @@ svg {
   <div id="map"></div>
   <div id="text">
     <p>This chart depicts the impact and geographic location of each contributor to <a href="https://github.com/mozilla/rust">the Rust compiler</a>.</p>
-    <p>Location data is taken from each user's Github profile for users who have elected to disclose that information. Precise coordinates are found by running location strings through the Google Maps API; for example, with a location of "Canada" you will be depicted as inhabiting a shack in remote Saskatchewan. Users without location data can be found floating near the Antarctic.</p>
+    <p>Location data is taken from each user's Github profile for users who have elected to disclose that information. Precise coordinates are found by running location strings through the <a href="http://developer.mapquest.com/web/products/open/nominatim">MapQuest Nominatim API</a>; for example, with a location of "Canada" you will be depicted as inhabiting a shack in remote Saskatchewan. Users without location data can be found floating near the Antarctic.</p>
     <p>Impact is measured as the sum of lines added and lines deleted for all commits to the master branch. Github only makes this data available for the top 100 contributors to any given repository; for the remaining users, their location is denoted by a dot of the minimum size.
   </div>
 </div>
