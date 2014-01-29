@@ -25,7 +25,7 @@ cred = (username, password)
 # This is the only way to get additions and deletions for each user for a repo,
 # but it will only return the top 100 users. We get the rest later.
 r = requests.get('https://github.com/{0}/graphs/contributors-data'.format(reponame))
-#r = requests.get('http://seleniac.org/map/data/test_data.json')
+#r = requests.get('http://seleniac.org/map/json/test_data.json')
 topcontributors = r.json()
 print(topcontributors)
 data = []

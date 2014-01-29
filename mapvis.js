@@ -26,7 +26,7 @@ $(document).ready(function() {
 
   var map = d3.select('#map').append('svg');
 
-  d3.json('continents.json', function(error, world) {
+  d3.json('json/continents.json', function(error, world) {
     map.insert('path')
        .datum(topojson.object(world, world.objects.land))
        .attr('class', 'continents')
